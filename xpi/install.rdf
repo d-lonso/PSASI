@@ -1,0 +1,28 @@
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+    <Description about="urn:mozilla:install-manifest">
+
+        <em:id>psasi@d-lonso</em:id>
+        <em:name>The PSASI</em:name>
+        <em:version>0.1.0.277</em:version>
+        <em:description>The most practiced setup and simplest installation</em:description>
+        <em:creator>Diego Sanguinetti</em:creator>
+                        <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDrW6nrw++/HXARgXkHKEM+0iqQo6H0bM5j1q8yGXVCV1Mwh9ms7lNEuKsn1Fw1xvXBIVUpXTTn8hAfSh4bg9OjLfvOaUTX6jnzX/S8uA5lzZnULC/SfIzEwXV4E0dVh36S58JoAZzbFIxw2oVKM3bHuEV8OrgHC0+Z4D03OKVk4wIDAQAB</em:updateKey>
+        <em:iconURL>chrome://cck-PSASI/content/logo.png</em:iconURL>
+        <em:hidden>true</em:hidden>
+        <em:locked>true</em:locked>
+        
+        <em:targetApplication>
+            <Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>17</em:minVersion>
+                <em:maxVersion>*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+
+        <em:unpack>true</em:unpack>
+
+    </Description>
+
+</RDF>

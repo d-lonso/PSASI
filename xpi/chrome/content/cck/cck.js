@@ -1,0 +1,94 @@
+Components.utils.import("resource://gre/modules/Services.jsm");
+Components.utils.import("resource://gre/modules/PrivateBrowsingUtils.jsm");
+
+function getCCKLink(item)
+{
+  var bundle = document.getElementById("bundle_cck");
+
+  return bundle.getString(item);
+}
+
+// urlPref: lets each application have its own throbber URL. example: "messenger.throbber.url"
+// event: lets shift+click open it in a new window, etc.
+function goClickThrobber( urlPref, e )
+{
+  var url;
+  try {
+    var pref = Components.classes["@mozilla.org/preferences-service;1"]
+                         .getService(Components.interfaces.nsIPrefBranch);
+    url = pref.getComplexValue(urlPref, Components.interfaces.nsIPrefLocalizedString).data;
+  }
+
+  catch(e) {
+    url = null;
+  }
+
+  if ( url )
+    openUILink(url, e);
+}
+
+(function () {
+  const gPrefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService);
+  const gPrefBranch = gPrefService.getBranch(null).QueryInterface(Ci.nsIPrefBranch2);
+
+  var mySyncUI = {
+    init: function() {
+      return;
+    },
+    initUI: function() {
+      return;
+    },
+    updateUI: function() {
+      document.getElementById("sync-setup-state").hidden = true;
+      document.getElementById("sync-syncnow-state").hidden = true;
+    }
+  }
+
+  function onPageLoad(event) {
+    if (event.target.location.href == "about:home") {
+      var syncButton = event.target.getElementById("sync");
+      if (syncButton)
+        syncButton.parentNode.removeChild(syncButton);
+    }
+  }
+
+  function startup()
+  {
+    window.removeEventListener("load", startup, false);
+    try {
+      if (!gPrefBranch.getBoolPref("browser.privatebrowsing.enabled")) {
+        if (PrivateBrowsingUtils.isWindowPrivate(window)) {
+	  window.setTimeout(function() {
+            Services.prompt.alert(window, "Private Browsing", "Private Browsing has been disabled by your administrator.");
+	    window.close();
+	  }, 0);
+        }
+      }
+    } catch (ex) {}
+    try {
+      if (!gPrefBranch.getBoolPref("services.sync.enabled")) {
+        gSyncUI = mySyncUI;
+        var syncbutton =  document.getElementById("sync-button");
+        if (!syncbutton) {
+          var toolbox = document.getElementById("navigator-toolbox");
+          if (toolbox)
+            syncbutton = toolbox.palette.querySelector("#sync-button");
+        }
+        if (syncbutton)
+          syncbutton.setAttribute("hidden", "true");
+        var appcontent = document.getElementById("appcontent");
+        if (appcontent) {
+          appcontent.addEventListener("DOMContentLoaded", onPageLoad, false);
+        }
+      }
+    } catch (ex) {}
+  }
+
+  function shutdown()
+  {
+    window.removeEventListener("unload", shutdown, false);
+  }
+
+  window.addEventListener("load", startup, false);
+  window.addEventListener("unload", shutdown, false);
+})();

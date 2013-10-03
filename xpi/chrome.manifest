@@ -1,0 +1,18 @@
+overlay chrome://browser/content/browser.xul  chrome://cck-PSASI/content/cck-browser-overlay.xul
+overlay chrome://browser/content/browser.xul  chrome://cck-PSASI/content/cck-browser-overlay-nonmac.xul os!=Darwin
+overlay chrome://browser/content/browser.xul  chrome://cck-PSASI/content/cck-browser-overlay-mac.xul os=Darwin
+overlay chrome://browser/content/preferences/preferences.xul  chrome://cck-PSASI/content/cck-prefs-overlay.xul
+overlay chrome://browser/content/aboutDialog.xul  chrome://cck-PSASI/content/cck-aboutDialog-overlay.xul
+overlay chrome://mozapps/content/extensions/extensions.xul chrome://cck-PSASI/content/cck-extensions-overlay.xul
+overlay about:addons chrome://cck-PSASI/content/cck-extensions-overlay.xul
+style chrome://mozapps/content/extensions/extensions.xul chrome://cck-PSASI/content/cck-extensions-overlay.css
+style about:addons chrome://cck-PSASI/content/cck-extensions-overlay.css
+
+content	cck-PSASI	chrome/content/cck/
+resource cck-PSASI modules/
+
+
+
+component {06bdf02c-21b5-487b-9876-18f878ed4ec2} components/cckService.js
+contract @mozilla.org/cck-service-PSASI;2 {06bdf02c-21b5-487b-9876-18f878ed4ec2}
+category profile-after-change PSASICCKService @mozilla.org/cck-service-PSASI;2
